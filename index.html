@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Custom Reactivity System</title>
+   </head>
+   <body>
+      <div>
+        <h1>Reactivity Example</h1>
+         <p>Price</p>
+         <input
+            type="number"
+            placeholder="0"
+            onkeyup="window.data.price = this.value"
+            />
+         <p>Quantity</p>
+         <input
+            type="number"
+            placeholder="0"
+            onkeyup="window.data.qty  = this.value"
+            />
+         <p>Total (quantity * price): </p>
+         <p id="total"></p>
+      </div>
+   </body>
+   <script src="dep.js"></script>
+   <script src="watcher.js"></script>
+   <script src="observer.js"></script>
+   <script>
+      window.data = {
+        price: 0,
+        qty: 0,
+      };
+      
+      walk(window.data);
+      
+      const watcher = new Watcher(
+        () => `Total: ${window.data.qty * window.data.price}`,
+        (val) => renderTotal(val)
+      );
+      
+      function renderTotal(val) {
+        const totalElem = document.querySelector("#total");
+        totalElem.innerHTML = val;
+      }
+   </script>
+</html>
